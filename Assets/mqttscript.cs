@@ -14,6 +14,7 @@ public class mqttscript : MonoBehaviour
     List<string> _topics; 
     [SerializeField]
     string msg;
+    IDictionary<string, string> dict;
     //int port = 1883;
 
     IMqttClient client;
@@ -25,7 +26,8 @@ public class mqttscript : MonoBehaviour
 
     async void Start()
     {   
-        _topics = new List<string>(); 
+        _topics = new List<string>();
+        dict = new Dictionary<string, string>(); 
         client = new MqttFactory().CreateMqttClient();
         client.Connected += OnConnected;
         client.Disconnected += OnDisconnected;
@@ -113,6 +115,7 @@ public class mqttscript : MonoBehaviour
         // sb.AppendFormat("Payload: {0}\n", Encoding.UTF8.GetString(e.ApplicationMessage.Payload));
         // sb.AppendFormat("QoS: {0}\n", e.ApplicationMessage.QualityOfServiceLevel);
         // sb.AppendFormat("Retain: {0}\n", e.ApplicationMessage.Retain);
+        dict[e.ApplicationMessage.Topic] =  e.ApplicationMessage.Payload;
         Debug.Log(e.ApplicationMessage.Topic);
         msg = Encoding.UTF8.GetString(e.ApplicationMessage.Payload);
     }
