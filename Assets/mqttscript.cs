@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
@@ -6,23 +6,30 @@ using UnityEngine;
 using MQTTnet;
 using MQTTnet.Client;
 
-public class SampleClient : MonoBehaviour
+public class mqttscript : MonoBehaviour
 {
     [SerializeField]
     string ipAddress = "";
+    bool is_connected = false, enviou = false;
+    List<string> _topics; 
     [SerializeField]
+    string msg;
     //int port = 1883;
 
     IMqttClient client;
     StringBuilder sb = new StringBuilder();
 
+    public string getIpAddress() {
+        return ipAddress;
+    }
+
     async void Start()
-    {
+    {   
+        _topics = new List<string>(); 
         client = new MqttFactory().CreateMqttClient();
         client.Connected += OnConnected;
         client.Disconnected += OnDisconnected;
         client.ApplicationMessageReceived += OnApplicationMessageReceived;
-
         await ConnectAsync(ipAddress);
     }
 
@@ -59,6 +66,7 @@ public class SampleClient : MonoBehaviour
                 .Build();
 
             var result = await client.ConnectAsync(options);
+            is_connected = true;
             Debug.Log($"Connected to the broker: {result.IsSessionPresent}");
 
             var topic = new TopicFilterBuilder()
@@ -98,15 +106,49 @@ public class SampleClient : MonoBehaviour
 
     private void OnApplicationMessageReceived(object sender, MqttApplicationMessageReceivedEventArgs e)
     {
-        sb.Clear();
-        sb.AppendLine("Message:");
-        sb.AppendFormat("ClientID: {0}\n", e.ClientId);
-        sb.AppendFormat("Topic: {0}\n", e.ApplicationMessage.Topic);
-        sb.AppendFormat("Payload: {0}\n", Encoding.UTF8.GetString(e.ApplicationMessage.Payload));
-        sb.AppendFormat("QoS: {0}\n", e.ApplicationMessage.QualityOfServiceLevel);
-        sb.AppendFormat("Retain: {0}\n", e.ApplicationMessage.Retain);
+        // sb.Clear();
+        // // sb.AppendLine("Message:");
+        // // sb.AppendFormat("ClientID: {0}\n", e.ClientId);
+        // sb.AppendFormat("Topic: {0}\n", e.ApplicationMessage.Topic);
+        // sb.AppendFormat("Payload: {0}\n", Encoding.UTF8.GetString(e.ApplicationMessage.Payload));
+        // sb.AppendFormat("QoS: {0}\n", e.ApplicationMessage.QualityOfServiceLevel);
+        // sb.AppendFormat("Retain: {0}\n", e.ApplicationMessage.Retain);
+        Debug.Log(e.ApplicationMessage.Topic);
+        msg = Encoding.UTF8.GetString(e.ApplicationMessage.Payload);
+    }
 
-        Debug.Log(sb);
+
+
+    public async void subscribe(string input_topic) {
+        if (_topics != null){
+            // Debug.Log(_topics.Contains(input_topic)) ;
+            if(!_topics.Contains(input_topic)){
+                var topic = new TopicFilterBuilder()
+                    .WithTopic(input_topic)
+                    .Build();
+
+                if(is_connected){
+                    _topics.Add(input_topic);
+                    await client.SubscribeAsync(topic);
+                    Debug.Log("Se inscreveu!");
+                }
+            }
+        }
+
+    }
+
+    public async void publish(string topic, string message) {
+            var msg = new MqttApplicationMessageBuilder()
+            .WithTopic(topic)
+            .WithPayload(message)
+            .WithExactlyOnceQoS()
+            .Build();
+        
+        if(is_connected)
+            await client.PublishAsync(msg);
+    }
+
+    public string read() {
+        return msg;
     }
 }
-
