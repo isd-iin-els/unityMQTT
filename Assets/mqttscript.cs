@@ -12,9 +12,9 @@ public class mqttscript : MonoBehaviour
     string ipAddress = "";
     bool is_connected = false, enviou = false;
     List<string> _topics; 
-    [SerializeField]
-    string msg;
+    [SerializeField] 
     IDictionary<string, string> dict;
+       // string msg;
     //int port = 1883;
 
     IMqttClient client;
@@ -115,9 +115,9 @@ public class mqttscript : MonoBehaviour
         // sb.AppendFormat("Payload: {0}\n", Encoding.UTF8.GetString(e.ApplicationMessage.Payload));
         // sb.AppendFormat("QoS: {0}\n", e.ApplicationMessage.QualityOfServiceLevel);
         // sb.AppendFormat("Retain: {0}\n", e.ApplicationMessage.Retain);
-        dict[e.ApplicationMessage.Topic] =  e.ApplicationMessage.Payload;
-        Debug.Log(e.ApplicationMessage.Topic);
-        msg = Encoding.UTF8.GetString(e.ApplicationMessage.Payload);
+        dict[e.ApplicationMessage.Topic] =  Encoding.UTF8.GetString(e.ApplicationMessage.Payload);
+        // Debug.Log(e.ApplicationMessage.Topic);
+        // msg = Encoding.UTF8.GetString(e.ApplicationMessage.Payload);
     }
 
 
@@ -151,7 +151,11 @@ public class mqttscript : MonoBehaviour
             await client.PublishAsync(msg);
     }
 
-    public string read() {
-        return msg;
+    public string read(string topic) {
+        if (dict.ContainsKey(topic))
+            return dict[topic];
+        else
+            return string.Empty;
+        
     }
 }

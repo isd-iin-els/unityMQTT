@@ -43,4 +43,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a9c905a8542625559ae08ea6b7d14d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ipAddress: 0.tcp.sa.ngrok.io:19104
+  ipAddress: 10.1.1.243:1887
