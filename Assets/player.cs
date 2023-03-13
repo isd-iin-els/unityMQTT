@@ -25,11 +25,11 @@ public class player : MonoBehaviour
     void Update()
     {
         mqtt.subscribe(topicss);
-        if(t==0)
-        mqtt.publish(topic, "{\"op\": 1, \"simulationTime\": 2, \"frequence\": 20, \"sensorType\": 2}");
-        t++;
-        string data = mqtt.read();
-        string[] acc = data.Split(',');
+        //if(t==0)
+        //mqtt.publish(topic, "{\"op\": 1, \"simulationTime\": 2, \"frequence\": 20, \"sensorType\": 2}");
+        //t++;
+        string data = mqtt.read(topicss); 
+        string[] acc = data.Split(','); 
         ombro.transform.eulerAngles = new Vector3(((float)Math.Atan2(float.Parse(acc[2]), float.Parse(acc[1])))*180, 0.0f, 0.0f);
     }
 }
