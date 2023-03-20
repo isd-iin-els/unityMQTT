@@ -24,4 +24,15 @@ public class requestIMUData : MonoBehaviour
             flag = true;
         }
     }
+
+    void OnTriggerEnter(Collider other) {  
+        flag = false;  
+        Debug.Log("Sensor Inercial Start");  
+    }
+
+    void OnTriggerExit(Collider other){
+        mqtt.publish(topic,"{\"op\":22}");
+        flag = true;
+        Debug.Log("Sensor Inercial Stop");  
+    }
 }

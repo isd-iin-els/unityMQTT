@@ -10,6 +10,7 @@ public class fesCommand : MonoBehaviour
     public string topic;
     public string topicans;
     bool ans = false;
+    bool exitStops = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -33,4 +34,12 @@ public class fesCommand : MonoBehaviour
         ans = false;
         Debug.Log(json2send);  
     }  
+
+void OnTriggerExit(Collider other){
+        if(exitStops){
+            string json2send = "{\"op\":2,\"m\":\"0,0,0,0\",\"t\":\""+tempo_on+"\",\"p\":\""+period+"\"}";
+            mqtt.publish(topic, json2send);
+            ans = false;  
+        }
+    }
 }
