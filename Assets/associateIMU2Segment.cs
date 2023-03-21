@@ -25,6 +25,6 @@ public class associateIMU2Segment : MonoBehaviour
         string data = mqtt.read(topicss);
         string[] acc = data.Split(',');
         if(acc.Length > 2)
-            segmentoDoCorpo.transform.eulerAngles = new Vector3(((float)Math.Atan2(float.Parse(acc[2]), float.Parse(acc[1])))*180, 90.0f, 0.0f);
+            segmentoDoCorpo.transform.eulerAngles = new Vector3(0.0f, 0.0f, (float)Math.Atan2(float.Parse(acc[2]), float.Parse(acc[1]))*180);
     }
 }
