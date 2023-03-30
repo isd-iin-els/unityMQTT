@@ -9,6 +9,8 @@ public class videoHandPosition : MonoBehaviour
     private mqttscript mqtt;
     public string topicss;
     public string data;
+    public float biasX;
+    public float biasY;
     // Start is called before the first frame update
     void Start()
     {
@@ -26,7 +28,7 @@ public class videoHandPosition : MonoBehaviour
             acc[0] = acc[0].Replace(".", ",");
             acc[1] = acc[1].Replace(".", ",");
             acc[2] = acc[2].Replace(".", ",");
-            transform.localPosition = new Vector3(transform.localPosition.x,(float.Parse(acc[2])+2)/5,float.Parse(acc[0])/5);
+            transform.localPosition = new Vector3(transform.localPosition.x,float.Parse(acc[1])*3+biasY,float.Parse(acc[0])*3+biasX);
         }
     }
 }
