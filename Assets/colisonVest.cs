@@ -32,7 +32,7 @@ public class colisonVest : MonoBehaviour
             sBack += value.ToString() + ",";
         sBack = sBack.Remove(sBack.Length - 1,1); 
 
-        string json2send = "{\"front\":["+sFront+"],\"back\"["+sBack+"]}";
+        string json2send = "{\"front\":["+sFront+"],\"back\":["+sBack+"]}";
         mqtt.publish(vest_topic, json2send);
         Debug.Log(json2send);  
     }  
