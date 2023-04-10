@@ -5,6 +5,9 @@ using UnityEngine;
 public class fesCommand : MonoBehaviour
 {
     public GameObject mqttobj;
+    public GameObject phaseFES;
+    public int state;
+    public bool isFinalState = false;
     private mqttscript mqtt;
     public string intensity = "0,0,0,0",tempo_on = "200", period = "20000";
     public string topic;
@@ -29,10 +32,16 @@ public class fesCommand : MonoBehaviour
     }
 
     void OnTriggerEnter(Collider other) {  
-        string json2send = "{\"op\":2,\"m\":\""+intensity+"\",\"t\":\""+tempo_on+"\",\"p\":\""+period+"\"}";
-        mqtt.publish(topic, json2send);
-        ans = false;
-        Debug.Log(json2send);  
+        if(phaseFES.GetComponentInChildren<countStates>().counter == state){
+            string json2send = "{\"op\":2,\"m\":\""+intensity+"\",\"t\":\""+tempo_on+"\",\"p\":\""+period+"\"}";
+            mqtt.publish(topic, json2send);
+            ans = false;
+            Debug.Log(json2send); 
+            if(isFinalState)
+                phaseFES.GetComponentInChildren<countStates>().counter = 0;
+            else 
+                phaseFES.GetComponentInChildren<countStates>().counter++;
+        } 
     }  
 
 void OnTriggerExit(Collider other){
