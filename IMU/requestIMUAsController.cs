@@ -13,7 +13,7 @@ public class requestIMUAsController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        mqtt = mqttobj.GetComponentInChildren<mqttscript>();
+        mqtt = mqttscript.getInstance();
     }
 
     // Update is called once per frame

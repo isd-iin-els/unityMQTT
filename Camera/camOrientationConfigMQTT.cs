@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class magBiasMQTT : MonoBehaviour
+public class camOrientationConfigMQTT : MonoBehaviour
 {
-    public GameObject mqttobj;
+    //public GameObject mqttobj;
     public string topic;
     public bool flag = false;
     public string angleX = "0", angleY = "0", angleZ = "0";
@@ -12,7 +12,7 @@ public class magBiasMQTT : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        mqtt = mqttobj.GetComponentInChildren<mqttscript>();
+        mqtt = mqttscript.getInstance();
     }
 
     // Update is called once per frame

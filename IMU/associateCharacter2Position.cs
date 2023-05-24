@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class associateCharacter2Position : MonoBehaviour
 {
-    public GameObject mqttobj;
+    //public GameObject mqttobj;
     private mqttscript mqtt;
     sbyte  t = 0;
     public float escala = 1;
@@ -16,7 +16,7 @@ public class associateCharacter2Position : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        mqtt = mqttobj.GetComponentInChildren<mqttscript>();
+        mqtt = mqttscript.getInstance();
     }
 
     // Update is called once per frame

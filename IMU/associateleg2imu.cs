@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class associateleg2imu : MonoBehaviour
 {
-    public GameObject mqttobj;
+    //public GameObject mqttobj;
     public GameObject hips,knee,ankle;
     private mqttscript mqtt;
      public bool isRightLeg = false;
@@ -17,7 +17,7 @@ public class associateleg2imu : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        mqtt = mqttobj.GetComponentInChildren<mqttscript>();
+        mqtt = mqttscript.getInstance();
         filteredAngle = new Vector3(0.0f,0.0f,0.0f);
     }
 

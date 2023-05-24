@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class fesCommand : MonoBehaviour
 {
-    public GameObject mqttobj;
+    //public GameObject mqttobj;
     public GameObject phaseFES;
     public int state;
     public bool isFinalState = false;
@@ -17,7 +17,7 @@ public class fesCommand : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        mqtt = mqttobj.GetComponentInChildren<mqttscript>();
+        mqtt = mqttscript.getInstance();
     }
 
     // Update is called once per frame

@@ -8,6 +8,7 @@ using MQTTnet.Client;
 
 public class mqttscript : MonoBehaviour
 {
+    static mqttscript Instance = null;
     [SerializeField]
     string ipAddress = "";
     bool is_connected = false, enviou = false;
@@ -20,19 +21,23 @@ public class mqttscript : MonoBehaviour
     IMqttClient client;
     StringBuilder sb = new StringBuilder();
 
+    public static mqttscript getInstance(){return Instance;}
     public string getIpAddress() {
         return ipAddress;
     }
 
-    async void Start()
+    async void Awake()
     {   
-        _topics = new List<string>();
-        dict = new Dictionary<string, string>(); 
-        client = new MqttFactory().CreateMqttClient();
-        client.Connected += OnConnected;
-        client.Disconnected += OnDisconnected;
-        client.ApplicationMessageReceived += OnApplicationMessageReceived;
-        await ConnectAsync(ipAddress);
+        if (Instance == null){
+            Instance = this;
+            _topics = new List<string>();
+            dict = new Dictionary<string, string>(); 
+            client = new MqttFactory().CreateMqttClient();
+            client.Connected += OnConnected;
+            client.Disconnected += OnDisconnected;
+            client.ApplicationMessageReceived += OnApplicationMessageReceived;
+            await ConnectAsync(ipAddress);
+        }
     }
 
     async void OnDestroy()

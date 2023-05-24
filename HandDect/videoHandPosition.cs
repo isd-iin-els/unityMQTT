@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class videoHandPosition : MonoBehaviour
 {
-    public GameObject mqttobj;
+    //public GameObject mqttobj;
     private mqttscript mqtt;
     public string topicss;
     public string data;
@@ -14,7 +14,7 @@ public class videoHandPosition : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        mqtt = mqttobj.GetComponentInChildren<mqttscript>();
+        mqtt = mqttscript.getInstance();
     }
 
     // Update is called once per frame

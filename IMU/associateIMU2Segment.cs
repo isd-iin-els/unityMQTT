@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class associateIMU2Segment : MonoBehaviour
 {
-    public GameObject mqttobj;
+    //public GameObject mqttobj;
     private mqttscript mqtt;
     sbyte  t = 0;
     // public string topic;
@@ -15,7 +15,7 @@ public class associateIMU2Segment : MonoBehaviour
 
     void Start()
     {
-        mqtt = mqttobj.GetComponentInChildren<mqttscript>();
+        mqtt = mqttscript.getInstance();
     }
 
     // Update is called once per frame

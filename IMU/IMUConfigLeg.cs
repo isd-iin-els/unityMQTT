@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class IMUConfigLeg : MonoBehaviour
 {
-    public GameObject mqttobj;
+    //public GameObject mqttobj;
     public string topic;
     public bool flag = false;
     public string hx="0",hy="0",hz="0",nx="0",ny="0",nz="0",ax="0",ay="0",az="0",filterFactor = "0";
@@ -13,7 +13,7 @@ public class IMUConfigLeg : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-         mqtt = mqttobj.GetComponentInChildren<mqttscript>();
+         mqtt = mqttscript.getInstance();
     }
 
     // Update is called once per frame

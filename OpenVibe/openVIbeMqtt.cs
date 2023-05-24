@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class openVIbeMqtt : MonoBehaviour
 {
-    public GameObject mqttobj;
+    //public GameObject mqttobj;
     private mqttscript mqtt;
     public string topicss; 
     public string data;
@@ -13,7 +13,7 @@ public class openVIbeMqtt : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        mqtt = mqttobj.GetComponentInChildren<mqttscript>();
+        mqtt = mqttscript.getInstance();
     }
 
     // Update is called once per frame

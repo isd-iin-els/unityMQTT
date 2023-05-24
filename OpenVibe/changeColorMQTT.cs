@@ -6,7 +6,7 @@ using UnityEngine;
 public class changeColorMQTT : MonoBehaviour
 {
     public List<Transform> _colors;
-    public GameObject mqttobj;
+    //public GameObject mqttobj;
     private mqttscript mqtt;
     // Start is called before the first frame update
     public string topicss;
@@ -15,7 +15,7 @@ public class changeColorMQTT : MonoBehaviour
     public float _cor,factorDiv=5.0f,factorSum=0;
     void Start()
     {
-        mqtt = mqttobj.GetComponentInChildren<mqttscript>();
+        mqtt = mqttscript.getInstance();
     }
 
     // Update is called once per frame

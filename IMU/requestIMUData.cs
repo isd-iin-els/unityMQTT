@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class requestIMUData : MonoBehaviour
 {
-    public GameObject mqttobj;
+    //public GameObject mqttobj;
     private mqttscript mqtt;
     public string topic;
     public bool flag = false;
@@ -13,7 +13,7 @@ public class requestIMUData : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        mqtt = mqttobj.GetComponentInChildren<mqttscript>();
+        mqtt = mqttscript.getInstance();
     }
 
     // Update is called once per frame

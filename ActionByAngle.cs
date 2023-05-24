@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ActionByAngle : MonoBehaviour
 {
-    public GameObject mqttobj;
+    //public GameObject mqttobj;
     private mqttscript mqtt;
     public string vest_topic;
     public int index = 0;
@@ -13,7 +13,7 @@ public class ActionByAngle : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        mqtt = mqttobj.GetComponentInChildren<mqttscript>();
+        mqtt = mqttscript.getInstance();
     }
 
     // Update is called once per frame

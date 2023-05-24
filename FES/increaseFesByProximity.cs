@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class increaseFesByProximity : MonoBehaviour
 {
-    public GameObject mqttobj;
+    //public GameObject mqttobj;
     private mqttscript mqtt;
     public string min_intensity = "0,0,0,0", max_intensity = "0,0,0,0",tempo_on = "200", period = "20000";
     bool ans = false;
@@ -17,7 +17,7 @@ public class increaseFesByProximity : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        mqtt = mqttobj.GetComponentInChildren<mqttscript>();
+        mqtt = mqttscript.getInstance();
         channels = max_intensity.Split(',');
     }
 

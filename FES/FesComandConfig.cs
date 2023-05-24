@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class FesComandConfig : MonoBehaviour
 {
-    public GameObject mqttobj;
+    //public GameObject mqttobj;
     public string topic;
     public bool flag = false;
     public string intensidade = "0,0,0,0",tempo = "200", periodo = "20000",state = "0";	
@@ -13,7 +13,7 @@ public class FesComandConfig : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-         mqtt = mqttobj.GetComponentInChildren<mqttscript>();
+         mqtt = mqttscript.getInstance();
     }
 
     // Update is called once per frame

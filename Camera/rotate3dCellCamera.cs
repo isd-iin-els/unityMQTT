@@ -8,13 +8,13 @@ public class rotate3dCellCamera : MonoBehaviour
     public float biasX = 0, biasY = 0, biasZ = 0;
     Vector3 giro;
     float xf=0,yf=0,yinit;
-    public GameObject mqttobj;
+    //public GameObject mqttobj;
     private mqttscript mqtt;
     public string camCalibTopic;
     // Start is called before the first frame update
     void Start()
     {
-        mqtt = mqttobj.GetComponentInChildren<mqttscript>();
+        mqtt = mqttscript.getInstance();
         Input.compass.enabled = true;
     	Input.location.Start();
     	yinit = Input.compass.magneticHeading;

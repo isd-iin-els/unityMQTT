@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class colisonVest : MonoBehaviour
 {
-    public GameObject mqttobj;
+    //public GameObject mqttobj;
     private mqttscript mqtt;
     public string vest_topic;
     int index = 0;
@@ -20,7 +20,7 @@ public class colisonVest : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        mqtt = mqttobj.GetComponentInChildren<mqttscript>();
+        mqtt = mqttscript.getInstance();
     }
 
     // Update is called once per frame
