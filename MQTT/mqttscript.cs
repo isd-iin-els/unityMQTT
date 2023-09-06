@@ -8,6 +8,7 @@ using MQTTnet.Client;
 
 public class mqttscript : MonoBehaviour
 {
+    public bool isTCP = false;
     static mqttscript Instance = null;
     [SerializeField]
     string ipAddress = "";
@@ -68,20 +69,38 @@ public class mqttscript : MonoBehaviour
     {
         Debug.Log(address);
         if (address != "localhost") {
-            var options = new MqttClientOptionsBuilder()
-                .WithWebSocketServer(address)
-                .Build();
+            if (!isTCP){
+                var options = new MqttClientOptionsBuilder()
+                    .WithWebSocketServer(address)
+                    .Build();
 
-            var result = await client.ConnectAsync(options);
-            is_connected = true;
-            Debug.Log($"Connected to the broker: {result.IsSessionPresent}");
+                var result = await client.ConnectAsync(options);
+                is_connected = true;
+                Debug.Log($"Connected to the broker: {result.IsSessionPresent}");
 
-            var topic = new TopicFilterBuilder()
-                .WithTopic("my/test")
-                .Build();
-            await client.SubscribeAsync("/my/test");
+                var topic = new TopicFilterBuilder()
+                    .WithTopic("my/test")
+                    .Build();
+                await client.SubscribeAsync("/my/test");
 
-            Debug.Log("Subscribed");
+                Debug.Log("Subscribed");
+            }else{
+                string[] ipPort = address.Split(":");
+                var options = new MqttClientOptionsBuilder()
+                    .WithTcpServer(ipPort[0],int.Parse(ipPort[1]))
+                    .Build();
+
+                var result = await client.ConnectAsync(options);
+                is_connected = true;
+                Debug.Log($"Connected to the broker: {result.IsSessionPresent}");
+
+                var topic = new TopicFilterBuilder()
+                    .WithTopic("my/test")
+                    .Build();
+                await client.SubscribeAsync("/my/test");
+
+                Debug.Log("Subscribed");
+            }
         }
     }
 

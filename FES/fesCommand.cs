@@ -10,13 +10,17 @@ public class fesCommand : MonoBehaviour
     public bool isFinalState = false;
     private mqttscript mqtt;
     public string intensity = "0,0,0,0",tempo_on = "200", period = "20000";
-    public string topic;
-    public string topicans;
+    public string topic = "";
+    public string topicans = "";
     bool ans = false;
     bool exitStops = false;
     // Start is called before the first frame update
     void Start()
     {
+        if(topic == ""){
+            topic = "cmd2"+transform.parent.name;
+            topicans = transform.parent.name+"ans";
+        }
         mqtt = mqttscript.getInstance();
     }
 
