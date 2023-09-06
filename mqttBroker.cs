@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 public class mqttBroker : MonoBehaviour
 {
+    public int port = 1883;
     private IMqttServer mqttServer = null;
     // private Server_ASP_NET_Samples test;
     // private IServiceCollection services;
@@ -16,7 +17,7 @@ public class mqttBroker : MonoBehaviour
     {
         var optionsBuilder = new MqttServerOptionsBuilder()
             .WithConnectionBacklog(100)
-            .WithDefaultEndpointPort(1883);
+            .WithDefaultEndpointPort(port);
 
         var mqttServer = new MqttFactory().CreateMqttServer();
         await mqttServer.StartAsync(optionsBuilder.Build());
