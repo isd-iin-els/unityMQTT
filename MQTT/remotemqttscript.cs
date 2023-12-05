@@ -5,26 +5,51 @@ using System.Threading.Tasks;
 using UnityEngine;
 using MQTTnet;
 using MQTTnet.Client;
+using System;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 
-public class mqttscript : MonoBehaviour
+public class remotemqttscript : MonoBehaviour
 {
-    public bool isTCP = false;
-    static mqttscript Instance = null;
+    public bool isTCP = false;    
+    static remotemqttscript Instance = null;
     [SerializeField]
     string ipAddress = "";
     bool is_connected = false, enviou = false;
     List<string> _topics; 
     [SerializeField] 
     IDictionary<string, string> dict;
+    private List<string> newTopics;
        // string msg;
     //int port = 1883;
 
     IMqttClient client;
     StringBuilder sb = new StringBuilder();
 
-    public static mqttscript getInstance(){return Instance;}
+    public static remotemqttscript getInstance(){return Instance;}
     public string getIpAddress() {
         return ipAddress;
+    }
+    
+    public List<string> getNewTopics(){
+        List<string> topics = new List<string>();
+        foreach (var topic in newTopics)
+        	topics.Add(topic);
+        newTopics = new List<string>();
+        return topics;
+
+    }
+    
+    public IDictionary<string, string> getMsgDict(){
+        return dict;
+    }
+    
+    public void resetMsg(string topic){
+        dict[topic] = "";
+    }
+    
+    public void delTopic(string topic){
+        dict[topic] = "";
     }
 
     async void Awake()
@@ -33,6 +58,7 @@ public class mqttscript : MonoBehaviour
             Instance = this;
             _topics = new List<string>();
             dict = new Dictionary<string, string>(); 
+            newTopics = new List<string>(); 
             client = new MqttFactory().CreateMqttClient();
             client.Connected += OnConnected;
             client.Disconnected += OnDisconnected;
@@ -81,7 +107,7 @@ public class mqttscript : MonoBehaviour
                 var topic = new TopicFilterBuilder()
                     .WithTopic("my/test")
                     .Build();
-                await client.SubscribeAsync("/my/test");
+                await client.SubscribeAsync("global/#");
 
                 Debug.Log("Subscribed");
             }else{
@@ -97,12 +123,11 @@ public class mqttscript : MonoBehaviour
                 var topic = new TopicFilterBuilder()
                     .WithTopic("my/test")
                     .Build();
-                await client.SubscribeAsync("/my/test");
+                await client.SubscribeAsync("global/#");
 
-                Debug.Log("Subscribed");
+                Debug.Log("global topic Subscribed");
             }
         }
-        publish("newAvatar", globals.objectDescription); 
     }
 
     public async void PublishMessage()
@@ -136,12 +161,32 @@ public class mqttscript : MonoBehaviour
         // sb.Clear();
         // // sb.AppendLine("Message:");
         // // sb.AppendFormat("ClientID: {0}\n", e.ClientId);
-        // sb.AppendFormat("Topic: {0}\n", e.ApplicationMessage.Topic);
+        Debug.Log("Topic: "); Debug.Log(e.ApplicationMessage.Topic);
+        Debug.Log("msg: "+ Encoding.UTF8.GetString(e.ApplicationMessage.Payload));
         // sb.AppendFormat("Payload: {0}\n", Encoding.UTF8.GetString(e.ApplicationMessage.Payload));
         // sb.AppendFormat("QoS: {0}\n", e.ApplicationMessage.QualityOfServiceLevel);
         // sb.AppendFormat("Retain: {0}\n", e.ApplicationMessage.Retain);
-        dict[e.ApplicationMessage.Topic] =  Encoding.UTF8.GetString(e.ApplicationMessage.Payload);
-        // Debug.Log(e.ApplicationMessage.Topic);
+        //string[] sliptedTopic = e.ApplicationMessage.Topic.Split("/");
+        //foreach(KeyValuePair<string, string> entry in dict)
+	//{
+	//    Debug.Log("foreach dict"); 
+	//    if (!entry.Key.Contains(sliptedTopic[0]+"/"+sliptedTopic[1]+"/")){
+        //	newTopics.Add(sliptedTopic[0]+"/"+sliptedTopic[1]+"/");
+        //	Debug.Log("Adicionou"); 
+        //	Debug.Log(newTopics[newTopics.Count-1]); 
+       //     }
+	//}
+	//if (dict.Count == 0){
+	//	newTopics.Add(sliptedTopic[0]+"/"+sliptedTopic[1]+"/");
+        //	Debug.Log("Adicionou"); 
+       // 	Debug.Log(newTopics[newTopics.Count-1]);
+	//}
+        
+        
+        dict[(string)(e.ApplicationMessage.Topic)] =  Encoding.UTF8.GetString(e.ApplicationMessage.Payload);
+        //foreach(KeyValuePair<string, string> entry in dict)
+        //	Debug.Log(entry.Key);
+        //Debug.Log(dict["global/andre/posRot"]);
         // msg = Encoding.UTF8.GetString(e.ApplicationMessage.Payload);
     }
 

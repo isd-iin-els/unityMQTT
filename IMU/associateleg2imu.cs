@@ -14,7 +14,12 @@ public class associateleg2imu : MonoBehaviour
     public float hx=0,hy=0,hz=0,nx=0,ny=0,nz=0,ax=0,ay=0,az=0;
     Vector3 filteredAngle;
     public float filterFactor = 0.1f;
-    // Start is called before the first frame update
+
+    void Awake()
+    {
+        globals.sensors2Json(this.name,this.GetType().ToString(),topicss);
+    }
+
     void Start()
     {
         mqtt = mqttscript.getInstance();

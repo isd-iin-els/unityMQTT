@@ -10,7 +10,7 @@ public class rotate3dCellCamera : MonoBehaviour
     float xf=0,yf=0,yinit;
     //public GameObject mqttobj;
     private mqttscript mqtt;
-    public string camCalibTopic;
+    public string topicss;
     // Start is called before the first frame update
     void Start()
     {
@@ -19,12 +19,17 @@ public class rotate3dCellCamera : MonoBehaviour
     	Input.location.Start();
     	yinit = Input.compass.magneticHeading;
     }
+    
+    void Awake()
+    {
+        globals.sensors2Json(this.name,this.GetType().ToString(),topicss);
+    }
 
     // Update is called once per frame
     void Update()
     {
-    	mqtt.subscribe(camCalibTopic);
-        string data = mqtt.read(camCalibTopic);
+    	mqtt.subscribe(topicss);
+        string data = mqtt.read(topicss);
         string[] hasDataAngle = data.Split(',');
         if(hasDataAngle.Length >= 2){
             if(hasDataAngle[0] == "c"){

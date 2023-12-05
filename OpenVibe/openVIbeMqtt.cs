@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class openVIbeMqtt : MonoBehaviour
 {
-    //public GameObject mqttobj;
     private mqttscript mqtt;
     public string topicss; 
     public string data;
@@ -14,6 +13,11 @@ public class openVIbeMqtt : MonoBehaviour
     void Start()
     {
         mqtt = mqttscript.getInstance();
+    }
+    
+    void Awake()
+    {
+        globals.sensors2Json(this.name,this.GetType().ToString(),topicss);
     }
 
     // Update is called once per frame

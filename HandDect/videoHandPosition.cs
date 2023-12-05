@@ -16,6 +16,12 @@ public class videoHandPosition : MonoBehaviour
     {
         mqtt = mqttscript.getInstance();
     }
+    
+    void Awake()
+    {
+        globals.sensors2Json(this.name,this.GetType().ToString(),topicss);
+    }
+
 
     // Update is called once per frame
     void Update()

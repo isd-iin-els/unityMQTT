@@ -18,6 +18,11 @@ public class associateInsole2Segment : MonoBehaviour
     {
         mqtt = mqttobj.GetComponentInChildren<mqttscript>();
     }
+    
+    void Awake()
+    {
+        globals.sensors2Json(this.name,this.GetType().ToString(),topicss);
+    }
 
     // Update is called once per frame
     void Update()

@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using Newtonsoft.Json;
 
 public class associateIMU2Segment : MonoBehaviour
 {
@@ -12,10 +12,16 @@ public class associateIMU2Segment : MonoBehaviour
     // public string topic;
     public string topicss;
     float lastValue=0;
-
+    //private IDictionary<string, string> localObj;
+    
     void Start()
     {
-        mqtt = mqttscript.getInstance();
+    	mqtt = mqttscript.getInstance();
+    }
+    
+    void Awake()
+    {
+        globals.sensors2Json(this.name,this.GetType().ToString(),topicss);
     }
 
     // Update is called once per frame
