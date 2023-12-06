@@ -39,6 +39,7 @@ public class monitorMQTTObjects : MonoBehaviour
     void Start()
     {
         mqtt = remotemqttscript.getInstance();
+        instanceList[globals.localName] = xBotPrefab;
     }
 
     // Update is called once per frame
@@ -58,8 +59,11 @@ public class monitorMQTTObjects : MonoBehaviour
                 }else if(topic.Contains("delAvatar") && msg.Length > 0)
                 {
                     RootObject deserializedObject = JsonConvert.DeserializeObject<RootObject>(msg);
-                    Destroy(instanceList[deserializedObject.Object.Name]);
-                    instanceList.Remove(deserializedObject.Object.Name);
+                    if(instanceList.ContainsKey(deserializedObject.Object.Name)){
+
+                        Destroy(instanceList[deserializedObject.Object.Name]);
+                        instanceList.Remove(deserializedObject.Object.Name);
+                    }
                 }
             }
         }
@@ -68,15 +72,16 @@ public class monitorMQTTObjects : MonoBehaviour
     void devicesSetUp(string msg, string topic)
     {
     	RootObject deserializedObject = JsonConvert.DeserializeObject<RootObject>(msg);
-        // if (deserializedObject.Object.Name == globals.localName)
-        //     return;
+        if (deserializedObject.Object.Name == globals.localName)
+             return;
 
     	if (deserializedObject.Object.Type == xBotPrefab.name){
     		var obj = Instantiate(xBotPrefab, globals.ParseVector3(deserializedObject.Object.Position), globals.ParseQuaternion(deserializedObject.Object.Rotation));
 
-            instanceList[deserializedObject.Object.Name] = obj;
+                
 		if (obj != null)
         	{
+        	instanceList[deserializedObject.Object.Name] = obj;
                 foreach (var component in deserializedObject.Components)
                 {
                     Debug.Log("object: " + obj.name);
