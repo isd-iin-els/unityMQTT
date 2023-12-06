@@ -37,8 +37,14 @@ public class mqttscript : MonoBehaviour
             client.Connected += OnConnected;
             client.Disconnected += OnDisconnected;
             client.ApplicationMessageReceived += OnApplicationMessageReceived;
+
             await ConnectAsync(ipAddress);
         }
+    }
+    
+    void OnApplicationQuit()
+    {
+    	publish("avatarStatus", "{\"status\":\"offline\",\"name\":\""+globals.localName+"\"}"); 
     }
 
     async void OnDestroy()
@@ -88,7 +94,15 @@ public class mqttscript : MonoBehaviour
                 string[] ipPort = address.Split(":");
                 var options = new MqttClientOptionsBuilder()
                     .WithTcpServer(ipPort[0],int.Parse(ipPort[1]))
-                    .Build();
+		    .WithCleanSession()
+		    //.WithWillMessage(new MqttApplicationMessageBuilder()
+		    //    .WithTopic("avatarStatus")
+		     //   .WithPayload("{\"status\":\"offline\"}")
+		    //    .WithAtLeastOnceQoS()
+		    //    .WithRetainFlag()
+		    //    .Build())
+		    .Build();
+                   
 
                 var result = await client.ConnectAsync(options);
                 is_connected = true;
@@ -102,7 +116,8 @@ public class mqttscript : MonoBehaviour
                 Debug.Log("Subscribed");
             }
         }
-        publish("newAvatar", globals.objectDescription); 
+        publish("addNewAvatar", globals.objectDescription); 
+        publish("getAvatars", globals.objectDescription); 
     }
 
     public async void PublishMessage()

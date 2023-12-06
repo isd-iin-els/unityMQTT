@@ -9,6 +9,7 @@ using Newtonsoft.Json.Linq;
 public class ObjectInfo
 {
     public string Name { get; set; }
+    public string Type { get; set; }
     public string Position { get; set; }
     public string Rotation { get; set; }
 }
@@ -32,6 +33,7 @@ public class monitorMQTTObjects : MonoBehaviour
     private remotemqttscript mqtt;
     public GameObject xBotPrefab;
     string data;
+    static IDictionary<string, GameObject> instanceList = new Dictionary<string, GameObject>();
     //public Component[] component;
 
     void Start()
@@ -44,28 +46,35 @@ public class monitorMQTTObjects : MonoBehaviour
     {
         //mqtt.subscribe("global/#");
         IDictionary<string, string> topicDict = new Dictionary<string, string>(mqtt.getMsgDict());
-        if(topicDict.Count!=0){
-		//Debug.Log("For:");
-		foreach(KeyValuePair<string, string> entry in topicDict){
-			//Debug.Log("monitorMQTTObjects: Dentro do For");
-			string topic = entry.Key;
-			string msg = entry.Value;
-			//Debug.Log(topic);
-			if(topic.Contains("newAvatar") && msg.Length > 0)
-			{
-			    devicesSetUp(msg,topic);
-			}
-		}
+        
 
-	}
+        if(topicDict.Count!=0){
+            foreach(KeyValuePair<string, string> entry in topicDict){
+                string topic = entry.Key;
+                string msg = entry.Value;
+                if(topic.Contains("newAvatar") && msg.Length > 0)
+                {
+                    devicesSetUp(msg,topic);
+                }else if(topic.Contains("delAvatar") && msg.Length > 0)
+                {
+                    RootObject deserializedObject = JsonConvert.DeserializeObject<RootObject>(msg);
+                    Destroy(instanceList[deserializedObject.Object.Name]);
+                    instanceList.Remove(deserializedObject.Object.Name);
+                }
+            }
+        }
     }
     
     void devicesSetUp(string msg, string topic)
     {
     	RootObject deserializedObject = JsonConvert.DeserializeObject<RootObject>(msg);
-  
-    	if (deserializedObject.Object.Name == xBotPrefab.name){
+        // if (deserializedObject.Object.Name == globals.localName)
+        //     return;
+
+    	if (deserializedObject.Object.Type == xBotPrefab.name){
     		var obj = Instantiate(xBotPrefab, globals.ParseVector3(deserializedObject.Object.Position), globals.ParseQuaternion(deserializedObject.Object.Rotation));
+
+            instanceList[deserializedObject.Object.Name] = obj;
 		if (obj != null)
         	{
                 foreach (var component in deserializedObject.Components)

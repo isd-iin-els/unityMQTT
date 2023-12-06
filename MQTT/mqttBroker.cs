@@ -32,11 +32,7 @@ public class mqttBroker : MonoBehaviour
 		File.AppendAllText(filename,data + Environment.NewLine);
 			//deserialize directly from that stream.
 			//filestream.WriteLine(data);
-
-	    	
 	    	Debug.Log(data);
-
-	
 	    });
         
         

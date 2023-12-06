@@ -12,7 +12,8 @@ public class objectDescription : MonoBehaviour
 
 	dict2Send = new Dictionary<string, string>(); //Dá pra melhorar colocando dicionário dentro de dicionário
 	var objectDescription = new Dictionary<string, string>();
-	objectDescription["name"] = this.name;
+	objectDescription["name"] = globals.localName;
+	objectDescription["type"] = this.name;
 	objectDescription["position"] = this.transform.position.ToString();
 	objectDescription["rotation"] = this.transform.rotation.ToString();
 	dict2Send["object"] = RemoveArtifacts(JsonConvert.SerializeObject(objectDescription));
