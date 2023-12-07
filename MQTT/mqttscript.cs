@@ -95,12 +95,12 @@ public class mqttscript : MonoBehaviour
                 var options = new MqttClientOptionsBuilder()
                     .WithTcpServer(ipPort[0],int.Parse(ipPort[1]))
 		    .WithCleanSession()
-		    //.WithWillMessage(new MqttApplicationMessageBuilder()
-		    //    .WithTopic("avatarStatus")
-		     //   .WithPayload("{\"status\":\"offline\"}")
-		    //    .WithAtLeastOnceQoS()
-		    //    .WithRetainFlag()
-		    //    .Build())
+		    .WithWillMessage(new MqttApplicationMessageBuilder()
+		        .WithTopic("avatarStatus")
+		        .WithPayload("{\"status\":\"offline\",\"name\":\""+globals.localName+"\"}")
+		        .WithAtLeastOnceQoS()
+		        .WithRetainFlag()
+		        .Build())
 		    .Build();
                    
 

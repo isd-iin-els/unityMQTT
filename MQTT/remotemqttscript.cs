@@ -52,6 +52,11 @@ public class remotemqttscript : MonoBehaviour
         dict[topic] = "";
     }
 
+    public void removeTopic(string topic){
+    	if (dict.ContainsKey(topic))
+        	dict.Remove(topic);
+    }
+
     async void Awake()
     {   
         if (Instance == null){
@@ -161,8 +166,8 @@ public class remotemqttscript : MonoBehaviour
         // sb.Clear();
         // // sb.AppendLine("Message:");
         // // sb.AppendFormat("ClientID: {0}\n", e.ClientId);
-        Debug.Log("Topic: "); Debug.Log(e.ApplicationMessage.Topic);
-        Debug.Log("msg: "+ Encoding.UTF8.GetString(e.ApplicationMessage.Payload));
+  //////Debug.Log("Topic: "); Debug.Log(e.ApplicationMessage.Topic);
+  //////Debug.Log("msg: "+ Encoding.UTF8.GetString(e.ApplicationMessage.Payload));
         // sb.AppendFormat("Payload: {0}\n", Encoding.UTF8.GetString(e.ApplicationMessage.Payload));
         // sb.AppendFormat("QoS: {0}\n", e.ApplicationMessage.QualityOfServiceLevel);
         // sb.AppendFormat("Retain: {0}\n", e.ApplicationMessage.Retain);

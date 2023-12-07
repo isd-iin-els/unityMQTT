@@ -24,7 +24,7 @@ public class synchronizeObject : MonoBehaviour
         var PositionOrientation = new Dictionary<string, string>();
         PositionOrientation["position"] = this.transform.position.ToString();
         PositionOrientation["rotation"] = this.transform.rotation.ToString();
-        mqtt.publish(topicss, globals.RemoveArtifacts(JsonConvert.SerializeObject(PositionOrientation))); 
+        mqtt.publish(globals.localName+"/"+topicss, globals.RemoveArtifacts(JsonConvert.SerializeObject(PositionOrientation))); 
         //Debug.Log("Function called every 3 seconds");
     }
 
@@ -40,12 +40,12 @@ public class synchronizeObject : MonoBehaviour
         {
             remotemqtt.subscribe(topicss);
             string data = remotemqtt.read(topicss);
-            Debug.Log("synchronizeObject: " + data);
+            //Debug.Log("synchronizeObject: " + data);
             if(data != "")
             {
                 
                 IDictionary<string, string>  localObj = JsonConvert.DeserializeObject<Dictionary<string, string>>(globals.RemoveArtifacts(data));
-                Debug.Log(localObj);
+                //Debug.Log(localObj);
                 this.transform.position = globals.ParseVector3(localObj["position"]);
                 this.transform.rotation = globals.ParseQuaternion(localObj["rotation"]);
             }

@@ -63,6 +63,8 @@ public class monitorMQTTObjects : MonoBehaviour
 
                         Destroy(instanceList[deserializedObject.Object.Name]);
                         instanceList.Remove(deserializedObject.Object.Name);
+                        Debug.Log("Deletou a key: "+instanceList.ContainsKey(deserializedObject.Object.Name));
+                        mqtt.removeTopic(topic);
                     }
                 }
             }
@@ -72,8 +74,9 @@ public class monitorMQTTObjects : MonoBehaviour
     void devicesSetUp(string msg, string topic)
     {
     	RootObject deserializedObject = JsonConvert.DeserializeObject<RootObject>(msg);
-        if (deserializedObject.Object.Name == globals.localName)
+        if (instanceList.ContainsKey(deserializedObject.Object.Name))
              return;
+
 
     	if (deserializedObject.Object.Type == xBotPrefab.name){
     		var obj = Instantiate(xBotPrefab, globals.ParseVector3(deserializedObject.Object.Position), globals.ParseQuaternion(deserializedObject.Object.Rotation));
