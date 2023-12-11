@@ -116,7 +116,7 @@ public class mqttscript : MonoBehaviour
                 Debug.Log("Subscribed");
             }
         }
-        publish("addNewAvatar", globals.objectDescription); 
+        publish("addNewAvatar", globals.objectDescription); //sending information 
         publish("getAvatars", globals.objectDescription); 
     }
 

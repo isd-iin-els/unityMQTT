@@ -33,7 +33,7 @@ public class monitorMQTTObjects : MonoBehaviour
     private remotemqttscript mqtt;
     public GameObject xBotPrefab;
     string data;
-    static IDictionary<string, GameObject> instanceList = new Dictionary<string, GameObject>();
+    public static IDictionary<string, GameObject> instanceList = new Dictionary<string, GameObject>();
     //public Component[] component;
 
     void Start()
@@ -165,6 +165,12 @@ public class monitorMQTTObjects : MonoBehaviour
             }else if (functions[i].Contains("synchronizeObject"))
             {
                 synchronizeObject newComponent = gameObject.AddComponent<synchronizeObject>();
+                newComponent.topicss = topics[i];
+
+            }
+            else if (functions[i].Contains("BciLocalStorage"))
+            {
+                BciLocalStorage newComponent = gameObject.AddComponent<BciLocalStorage>();
                 newComponent.topicss = topics[i];
 
             }
