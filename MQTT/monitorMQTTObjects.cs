@@ -74,23 +74,29 @@ public class monitorMQTTObjects : MonoBehaviour
     void devicesSetUp(string msg, string topic)
     {
     	RootObject deserializedObject = JsonConvert.DeserializeObject<RootObject>(msg);
-        if (instanceList.ContainsKey(deserializedObject.Object.Name))
-             return;
+        
+        if (instanceList.ContainsKey(deserializedObject.Object.Name)){
+            mqtt.delTopic(topic);
+            return;
+        }
 
-
-    	if (deserializedObject.Object.Type == xBotPrefab.name){
+        // Debug.Log(xBotPrefab.name);
+        // Debug.Log(deserializedObject.Object.Type);
+    	if (xBotPrefab.name.Contains(deserializedObject.Object.Type)){
     		var obj = Instantiate(xBotPrefab, globals.ParseVector3(deserializedObject.Object.Position), globals.ParseQuaternion(deserializedObject.Object.Rotation));
 
                 
-		if (obj != null)
+		    if (obj != null)
         	{
-        	instanceList[deserializedObject.Object.Name] = obj;
+        	    instanceList[deserializedObject.Object.Name] = obj;
                 foreach (var component in deserializedObject.Components)
                 {
                     Debug.Log("object: " + obj.name);
+                    Debug.Log("component: " + component.Key);
                     string[] name = obj.name.Split("(");
-                    if (component.Key == name[0])
+                    if (name[0] == component.Key)
                     {
+                        Debug.Log("Fabricando: " + component.Value);
                         componentFactory(obj,component.Value);
                     }
                 }
