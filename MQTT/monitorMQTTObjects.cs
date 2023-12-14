@@ -33,7 +33,7 @@ public class monitorMQTTObjects : MonoBehaviour
     private remotemqttscript mqtt;
     public GameObject xBotPrefab;
     string data;
-    public static IDictionary<strin    public static Dictionary<string, GameObject> instanceList = new Dictionary<string, GameObject>();
+    public static IDictionary<string, GameObject> instanceList = new Dictionary<string, GameObject>();
     //public Component[] component;
 
     void Start()
@@ -88,8 +88,7 @@ public class monitorMQTTObjects : MonoBehaviour
                 
 		    if (obj != null)
         	{
-        	    
-                Debug.Log(deserializedObject.Object.Name);
+        	    instanceList[deserializedObject.Object.Name] = obj;
                 foreach (var component in deserializedObject.Components)
                 {
                     Debug.Log("object: " + obj.name);
@@ -101,7 +100,6 @@ public class monitorMQTTObjects : MonoBehaviour
                         componentFactory(obj,component.Value);
                     }
                 }
-
                 
     			List<GameObject> childrenList = GetAllChildren(obj.transform);
                 // Iterate through the list of children GameObjects
@@ -117,7 +115,6 @@ public class monitorMQTTObjects : MonoBehaviour
                         }
                     }
                 }
-                instanceList.Add(deserializedObject.Object.Name,obj);
     		}
 		
     		mqtt.delTopic(topic);
@@ -134,65 +131,64 @@ public class monitorMQTTObjects : MonoBehaviour
             {
                 associateIMU2Segment newComponent = gameObject.AddComponent<associateIMU2Segment>();
                 newComponent.topicss = topics[i];
-                newComponent.enabled = true;
             }else if (functions[i].Contains("associateleg2imu"))
             {
                 associateleg2imu newComponent = gameObject.AddComponent<associateleg2imu>();
                 newComponent.topicss = topics[i];
-                newComponent.enabled = true;
             }else if (functions[i].Contains("associateCharacter2Position"))
             {
                 associateCharacter2Position newComponent = gameObject.AddComponent<associateCharacter2Position>();
                 newComponent.topicss = topics[i];
-                newComponent.enabled = true;
             }else if (functions[i].Contains("associateInsole2Segment"))
             {
                 associateInsole2Segment newComponent = gameObject.AddComponent<associateInsole2Segment>();
                 newComponent.topicss = topics[i];
-                newComponent.enabled = true;
             }else if (functions[i].Contains("rotate3dCellCamera"))
             {
                 rotate3dCellCamera newComponent = gameObject.AddComponent<rotate3dCellCamera>();
                 newComponent.topicss = topics[i];
-                newComponent.enabled = true;
 
             }else if (functions[i].Contains("videoHandPose"))
             {
                 videoHandPose newComponent = gameObject.AddComponent<videoHandPose>();
                 newComponent.topicss = topics[i];
-                newComponent.enabled = true;
 
             }else if (functions[i].Contains("videoHandOrientation"))
             {
                 videoHandOrientation newComponent = gameObject.AddComponent<videoHandOrientation>();
                 newComponent.topicss = topics[i];
-                newComponent.enabled = true;
 
             }else if (functions[i].Contains("videoFingerOrientation"))
             {
                 videoFingerOrientation newComponent = gameObject.AddComponent<videoFingerOrientation>();
                 newComponent.topicss = topics[i];
-                newComponent.enabled = true;
 
             }else if (functions[i].Contains("openVIbeMqtt"))
             {
                 openVIbeMqtt newComponent = gameObject.AddComponent<openVIbeMqtt>();
                 newComponent.topicss = topics[i];
-                newComponent.enabled = true;
 
             }else if (functions[i].Contains("synchronizeObject"))
             {
                 synchronizeObject newComponent = gameObject.AddComponent<synchronizeObject>();
                 newComponent.topicss = topics[i];
-                newComponent.enabled = true;
 
             }
             else if (functions[i].Contains("BciLocalStorage"))
             {
                 BciLocalStorage newComponent = gameObject.AddComponent<BciLocalStorage>();
                 newComponent.topicss = topics[i];
-                newComponent.enabled = true;
-rate through all child GameObjects
+
+            }
+        }
+    }
+    
+    
+    List<GameObject> GetAllChildren(Transform parent)
+    {
+        List<GameObject> childrenList = new List<GameObject>();
+
+        // Iterate through all child GameObjects
         for (int i = 0; i < parent.childCount; i++)
         {
             Transform childTransform = parent.GetChild(i);
