@@ -12,14 +12,14 @@ public class objectDescription : MonoBehaviour
 
 	dict2Send = new Dictionary<string, string>(); //Dá pra melhorar colocando dicionário dentro de dicionário
 	var objectDescription = new Dictionary<string, string>();
-	objectDescription["name"] = globals.localName;
+	objectDescription["name"] = globals.Instance.localName;
 	objectDescription["type"] = this.name;
 	objectDescription["position"] = this.transform.position.ToString();
 	objectDescription["rotation"] = this.transform.rotation.ToString();
 	dict2Send["object"] = RemoveArtifacts(JsonConvert.SerializeObject(objectDescription));
 	
-        dict2Send["components"] = RemoveArtifacts(JsonConvert.SerializeObject(globals.components));
-        globals.objectDescription = RemoveArtifacts(JsonConvert.SerializeObject(dict2Send)); 
+        dict2Send["components"] = RemoveArtifacts(JsonConvert.SerializeObject(globals.Instance.components));
+        globals.Instance.objectDescription = RemoveArtifacts(JsonConvert.SerializeObject(dict2Send)); 
     }
     
     public static string RemoveArtifacts(string test)

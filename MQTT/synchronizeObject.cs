@@ -24,7 +24,7 @@ public class synchronizeObject : MonoBehaviour
         var PositionOrientation = new Dictionary<string, string>();
         PositionOrientation["position"] = this.transform.position.ToString();
         PositionOrientation["rotation"] = this.transform.rotation.ToString();
-        mqtt.publish(globals.localName+"/"+topicss, globals.RemoveArtifacts(JsonConvert.SerializeObject(PositionOrientation))); 
+        mqtt.publish(globals.Instance.localName+"/"+topicss, globals.RemoveArtifacts(JsonConvert.SerializeObject(PositionOrientation))); 
         //Debug.Log("Function called every 3 seconds");
     }
 

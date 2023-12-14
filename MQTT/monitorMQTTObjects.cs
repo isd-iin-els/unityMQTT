@@ -33,13 +33,13 @@ public class monitorMQTTObjects : MonoBehaviour
     private remotemqttscript mqtt;
     public GameObject xBotPrefab;
     string data;
-    public static Dictionary<string, GameObject> instanceList = new Dictionary<string, GameObject>();
+    public static IDictionary<strin    public static Dictionary<string, GameObject> instanceList = new Dictionary<string, GameObject>();
     //public Component[] component;
 
     void Start()
     {
         mqtt = remotemqttscript.getInstance();
-        instanceList[globals.localName] = xBotPrefab;
+        instanceList[globals.Instance.localName] = xBotPrefab;
     }
 
     // Update is called once per frame
@@ -192,17 +192,7 @@ public class monitorMQTTObjects : MonoBehaviour
                 BciLocalStorage newComponent = gameObject.AddComponent<BciLocalStorage>();
                 newComponent.topicss = topics[i];
                 newComponent.enabled = true;
-
-            }
-        }
-    }
-    
-    
-    List<GameObject> GetAllChildren(Transform parent)
-    {
-        List<GameObject> childrenList = new List<GameObject>();
-
-        // Iterate through all child GameObjects
+rate through all child GameObjects
         for (int i = 0; i < parent.childCount; i++)
         {
             Transform childTransform = parent.GetChild(i);

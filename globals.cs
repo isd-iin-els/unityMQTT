@@ -5,27 +5,30 @@ using Newtonsoft.Json;
 using System.Globalization;
 public class globals : MonoBehaviour
 {
-    // Start is called before the first frame update
-    public static IDictionary<string, string > components = new Dictionary<string, string >();
-    public static string objectDescription;
-    public static string localName = "andre";
+    
+    private static globals _instance;
+    public static globals Instance => _instance ??= FindObjectOfType<globals>() ?? new GameObject(typeof(globals).Name).AddComponent<globals>();
+// Start is called before the first frame update
+    public IDictionary<string, string > components = new Dictionary<string, string >();
+    public string objectDescription;
+    public string localName = "computerJ3";
 
     public static void sensors2Json(string name, string type, string topicss)
     {
     	//Debug.Log(name);
         IDictionary<string, string> localObj = new Dictionary<string, string>();
         
-        if (globals.components.ContainsKey(name)){
-            localObj = JsonConvert.DeserializeObject<Dictionary<string, string>>(RemoveArtifacts(globals.components[name]));
+        if (globals.Instance.components.ContainsKey(name)){
+            localObj = JsonConvert.DeserializeObject<Dictionary<string, string>>(RemoveArtifacts(globals.Instance.components[name]));
             //Debug.Log(localObj);
             localObj["function"] += "," + type;
-            localObj["topicss"] += "," + "global/" + localName + "/" + topicss;
-            globals.components[name] =  JsonConvert.SerializeObject(localObj);
+            localObj["topicss"] += "," + "global/" + Instance.localName + "/" + topicss;
+            globals.Instance.components[name] =  JsonConvert.SerializeObject(localObj);
         }
         else{
             localObj["function"] = type;
-            localObj["topicss"] = "global/" + localName + "/" + topicss;
-            globals.components[name] =  JsonConvert.SerializeObject(localObj);
+            localObj["topicss"] = "global/" + Instance.localName + "/" + topicss;
+            globals.Instance.components[name] =  JsonConvert.SerializeObject(localObj);
         }
         
 

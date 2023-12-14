@@ -116,6 +116,7 @@ public class remotemqttscript : MonoBehaviour
 
                 Debug.Log("Subscribed");
             }else{
+                Debug.Log(address);
                 string[] ipPort = address.Split(":");
                 var options = new MqttClientOptionsBuilder()
                     .WithTcpServer(ipPort[0],int.Parse(ipPort[1]))

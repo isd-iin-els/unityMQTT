@@ -44,7 +44,7 @@ public class mqttscript : MonoBehaviour
     
     void OnApplicationQuit()
     {
-    	publish("avatarStatus", "{\"status\":\"offline\",\"name\":\""+globals.localName+"\"}"); 
+    	publish("avatarStatus", "{\"status\":\"offline\",\"name\":\""+globals.Instance.localName+"\"}"); 
     }
 
     async void OnDestroy()
@@ -97,7 +97,7 @@ public class mqttscript : MonoBehaviour
 		    .WithCleanSession()
 		    .WithWillMessage(new MqttApplicationMessageBuilder()
 		        .WithTopic("avatarStatus")
-		        .WithPayload("{\"status\":\"offline\",\"name\":\""+globals.localName+"\"}")
+		        .WithPayload("{\"status\":\"offline\",\"name\":\""+globals.Instance.localName+"\"}")
 		        .WithAtLeastOnceQoS()
 		        .WithRetainFlag()
 		        .Build())
@@ -106,7 +106,7 @@ public class mqttscript : MonoBehaviour
 
                 var result = await client.ConnectAsync(options);
                 is_connected = true;
-                Debug.Log($"Connected to the broker: {result.IsSessionPresent}");
+                //Debug.Log($"Connected to the broker: {result.IsSessionPresent}");
 
                 var topic = new TopicFilterBuilder()
                     .WithTopic("my/test")
@@ -116,8 +116,8 @@ public class mqttscript : MonoBehaviour
                 Debug.Log("Subscribed");
             }
         }
-        publish("addNewAvatar", globals.objectDescription); //sending information 
-        publish("getAvatars", globals.objectDescription); 
+        publish("addNewAvatar", globals.Instance.objectDescription); //sending information 
+        publish("getAvatars", globals.Instance.objectDescription); 
     }
 
     public async void PublishMessage()
