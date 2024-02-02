@@ -174,12 +174,12 @@ public class monitorMQTTObjects : MonoBehaviour
                 newComponent.topicss = topics[i];
 
             }
-            else if (functions[i].Contains("BciLocalStorage"))
-            {
-                BciLocalStorage newComponent = gameObject.AddComponent<BciLocalStorage>();
-                newComponent.topicss = topics[i];
+            // else if (functions[i].Contains("BciLocalStorage"))
+            // {
+            //     BciLocalStorage newComponent = gameObject.AddComponent<BciLocalStorage>();
+            //     newComponent.topicss = topics[i];
 
-            }
+            // }
         }
     }
     
