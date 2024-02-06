@@ -22,7 +22,10 @@ public class MqttWheel : MonoBehaviour
     {
         mqtt.subscribe(topicss);
         data = mqtt.read(topicss);
-        speed = data.Split(',')[0].Replace('.', ',');
+        if(isRightLeg)
+            speed = data.Split(',')[1].Replace('.', ',');
+        else
+            speed = data.Split(',')[2].Replace('.', ',');
    
         if (float.TryParse(speed, out float parsedSpeed))
         {
