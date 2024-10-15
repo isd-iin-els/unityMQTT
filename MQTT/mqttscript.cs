@@ -15,7 +15,7 @@ public class mqttscript : MonoBehaviour
     bool is_connected = false, enviou = false;
     List<string> _topics; 
     [SerializeField] 
-    IDictionary<string, string> dict;
+    public IDictionary<string, string> dict;
        // string msg;
     //int port = 1883;
 
